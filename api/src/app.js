@@ -3,7 +3,13 @@ require("dotenv/config")
 const express = require("express");
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
+const mongoose = require('mongoose')
 const cors = require('cors')
+
+mongoose.connect(process.env.DATABASE_URL,{useNewUrlParser: true, useUnifiedTopology: true})
+const db = mongoose.connection
+db.on('error', console.error.bind(console, 'connection error:'))
+db.once('open', () => console.log('Connected Database'))
 
 const port = process.env.PORT || 3000;
 
