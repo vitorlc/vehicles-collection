@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const veiculoSchema = new mongoose.Schema({
-  nome: String,
+  veiculo: String,
   marca: String,
   ano: Number,
   descricao: String,
