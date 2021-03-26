@@ -1,17 +1,45 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>CRUD Veículos</h1>
+    <FormVeiculo :veiculoEditar="veiculoEditar" />
+    <TabelaVeiculos :veiculos="veiculosData" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import FormVeiculo from "./components/FormVeiculo/FormVeiculo";
+import TabelaVeiculos from "./components/TabelaVeiculos/TabelaVeiculos"
+import veiculoService from './services/veiculo'
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
+    FormVeiculo,
+    TabelaVeiculos,
+  },
+  async created() {
+    await this.listarVeiculos()
+  },
+  data() {
+    return {
+      veiculosData: [],
+      veiculoEditar: null,
+    };
+  },
+  methods: {
+    async listarVeiculos() {
+      let { data } = await veiculoService.findAll()
+      this.veiculosData = [...data]
+    },
+    editarVeiculo(veiculo) {
+      this.veiculoEditar = veiculo
+    },
+  },
+  provide: function () {
+    return {
+      listarVeiculos: this.listarVeiculos,
+      editarVeiculo: this.editarVeiculo
+    };
   }
 }
 </script>
@@ -23,6 +51,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  height: 98vh; 
+  border: 1px solid #eee;
+  padding: 40px;
 }
 </style>
